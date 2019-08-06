@@ -1,12 +1,15 @@
 FROM debian:jessie
 LABEL maintainer="peter@wiredelf.com"
 RUN apt-get update \
-	&& apt install -y cron curl wget vim \
+	&& apt-get install -y --no-install-recommends cron curl wget ca-certificates vim \
 	&& apt-get clean \
-  && rm -fr /var/lib/apt/list/*
-# cron(8) says the Debian cron daemon reads the files in /etc/cron.d,
-# merging into the data from /etc/crontab, to use as the system-wide cron jobs
-#
-RUN echo "*/5 * * * * root /usr/bin/wget -qO- http://nginx/wp-cron.php" >/etc/cron.d/wpcron
+    && rm -rf /var/lib/apt/lists/*
+
 VOLUME /etc/cron.d/
+# Tried placing the file under /etc/cron.d but it didn't work, so have to use
+# This work around.
+RUN echo "* * * * *  /usr/bin/wget -qO- http://nginx/wp-cron.php" | crontab -
+# COPY ./wpcron /etc/cron.d/wpcron
+# RUN chmod 644 /etc/cron.d/wpcron
+
 CMD [ "cron","-f" ]

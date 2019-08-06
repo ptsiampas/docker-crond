@@ -6,4 +6,3 @@ services:
     build: .
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./root-crontab:/var/spool/cron/crontabs/root
