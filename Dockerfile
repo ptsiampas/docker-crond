@@ -8,7 +8,7 @@ RUN apt-get update \
 VOLUME /etc/cron.d/
 # Tried placing the file under /etc/cron.d but it didn't work, so have to use
 # This work around.
-RUN echo "* * * * *  /usr/bin/wget -qO- http://nginx/wp-cron.php" | crontab -
+RUN echo "*/5 * * * *  /usr/bin/wget -qO- http://nginx/wp-cron.php" | crontab -
 # COPY ./wpcron /etc/cron.d/wpcron
 # RUN chmod 644 /etc/cron.d/wpcron
 
