@@ -6,4 +6,4 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 	&& apt-get clean \
   && rm -fr /var/lib/apt/list/*
 VOLUME /etc/cron.d/
-CMD [ "/usr/sbin/cron","-f","-L /dev/stdout" ]
+CMD [ "/usr/sbin/cron","-f" ]
